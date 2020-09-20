@@ -1,6 +1,7 @@
 import React from "react";
 import {listSelector} from "../../redux/todo-list/todo-list.selectors";
 import {connect} from "react-redux";
+import {createStructuredSelector} from 'reselect';
 
 const FancyList = ({list}) => {
 
@@ -12,8 +13,8 @@ const FancyList = ({list}) => {
         </ol>
     );
 };
-const mapStateToProps = (state) => ({
-    list: listSelector(state)
+const mapStateToProps = createStructuredSelector({
+    list: listSelector
 });
 
 export default connect(mapStateToProps)(FancyList);
