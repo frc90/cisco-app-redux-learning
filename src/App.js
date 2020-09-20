@@ -3,12 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import List from "./components/list/list.component";
 import FancyList from "./components/fancy-list/fancy-list.component";
+import {connect} from "react-redux";
+import {addItemAction} from "./redux/todo-list/todo-list.actions";
 
 class App extends React.Component {
     constructor() {
         super()
         this.state = {
-            list: [{name: 'Cisco'}, {name: 'Alexis'}],
             inputText: ''
         }
     }
@@ -16,17 +17,14 @@ class App extends React.Component {
     handleOnChange = (event) => {
         let txt = event.target.value;
         this.setState({
-            ...this.state.list,
+            ...this.state,
             inputText: txt
         })
     };
 
     handleOnClick = () => {
         if (this.state.inputText) {
-            this.setState({
-                list: [...this.state.list, { name: this.state.inputText}],
-                inputText: ''
-            })
+            this.props.handleAddItemToList({ name: this.state.inputText})
         }
     };
 
@@ -35,15 +33,19 @@ class App extends React.Component {
             <div className="App">
                 <div>
                     <input value={this.state.inputText} type="text" onChange={this.handleOnChange}/>
-                    <List list={this.state.list}/>
+                    <List/>
                     <button onClick={this.handleOnClick}>Add</button>
                 </div>
                 <div>
-                    <FancyList list={this.state.list}/>
+                    <FancyList/>
                 </div>
             </div>
         );
     }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+    handleAddItemToList: (item) => dispatch(addItemAction(item))
+});
+
+export default connect(null, mapDispatchToProps)(App);

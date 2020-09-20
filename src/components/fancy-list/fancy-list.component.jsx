@@ -1,4 +1,6 @@
 import React from "react";
+import {listSelector} from "../../redux/todo-list/todo-list.selectors";
+import {connect} from "react-redux";
 
 const FancyList = ({list}) => {
 
@@ -10,5 +12,8 @@ const FancyList = ({list}) => {
         </ol>
     );
 };
+const mapStateToProps = (state) => ({
+    list: listSelector(state)
+});
 
-export default FancyList;
+export default connect(mapStateToProps)(FancyList);
